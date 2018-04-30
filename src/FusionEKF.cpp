@@ -63,21 +63,20 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     */
     // first measurement
     ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-    float rho = measurement_pack.raw_measurements_[0]; // range
-	  float phi = measurement_pack.raw_measurements_[1]; // bearing
-	  float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
+      float rho = measurement_pack.raw_measurements_[0]; // range
+	    float phi = measurement_pack.raw_measurements_[1]; // bearing
+	    float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
 	  // Coordinates convertion from polar to cartesian
-	  float x = rho * cos(phi); 
-	  float y = rho * sin(phi);
-	  float vx = rho_dot * cos(phi);
-	  float vy = rho_dot * sin(phi);
-	  ekf_.x_ << x, y, vx , vy;
+	    float x = rho * cos(phi); 
+	    float y = rho * sin(phi);
+	    float vx = rho_dot * cos(phi);
+	    float vy = rho_dot * sin(phi);
+	    ekf_.x_ << x, y, vx , vy;
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       /**
@@ -87,14 +86,14 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     }
     if (fabs(ekf_.x_(0)) < EPS and fabs(ekf_.x_(1)) < EPS){
-		ekf_.x_(0) = EPS;
-		ekf_.x_(1) = EPS;
+		  ekf_.x_(0) = EPS;
+		  ekf_.x_(1) = EPS;
 	  }
-    ekf_.P_ = MatrixXd(4, 4);
-    ekf_.P_ << 1, 0, 0, 0,
-			         0, 1, 0, 0,
-			         0, 0, 1000, 0,
-			         0, 0, 0, 1000;
+      ekf_.P_ = MatrixXd(4, 4);
+      ekf_.P_ << 1, 0, 0, 0,
+		  	         0, 1, 0, 0,
+		  	         0, 0, 1000, 0,
+		  	         0, 0, 0, 1000;
     cout << "EKF init: " << ekf_.x_ << endl;
     previous_timestamp_ = measurement_pack.timestamp_;
 
@@ -121,12 +120,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   float dt_3 = dt_2 * dt;
   float dt_4 = dt_3 * dt;
   float dt_4_4 = dt_4 / 4;
-  float dt_3_2 = dt_3 / 2; //dt^3/2
+  float dt_3_2 = dt_3 / 2;
 
 
   float noise_ax = 9.0;
   float noise_ay = 9.0;
 	//Modify the F matrix so that the time is integrated
+  ekf_.F_ = MatrixXd(4, 4);
   ekf_.F_(0, 2) = dt;
   ekf_.F_(1, 3) = dt;
 
