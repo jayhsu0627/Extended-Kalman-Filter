@@ -94,7 +94,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 		  	         0, 1, 0, 0,
 		  	         0, 0, 1000, 0,
 		  	         0, 0, 0, 1000;
-    cout << "EKF init: " << ekf_.x_ << endl;
+    cout << "EKF init: " << ekf_.x_<< ekf_.P_ << endl;
     previous_timestamp_ = measurement_pack.timestamp_;
 
     // done initializing, no need to predict or update

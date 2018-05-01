@@ -60,16 +60,21 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   double rho_dot = (x_(0)*x_(2) + x_(1)*x_(3)) / rho;
   VectorXd h = VectorXd(3); // h(x_)
   h << rho, theta, rho_dot;
-      
+  cout << "UpdateEKF h: " << h << endl;    
   VectorXd y = z - h;
+  cout << "UpdateEKF y: " << y << endl;    
+
 	MatrixXd Ht = H_.transpose();
 	MatrixXd S = H_ * P_ * Ht + R_;
 	MatrixXd Si = S.inverse();
 	MatrixXd PHt = P_ * Ht;
 	MatrixXd K = PHt * Si;
+  cout << "UpdateEKF: " << S <<K << endl;    
 
 	//new estimate
 	x_ = x_ + (K * y);
+  cout << "UpdateEKF: " << x_ <<P_ << endl;    
+
 	int x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
 	P_ = (I - K * H_) * P_;
