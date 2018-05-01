@@ -1,4 +1,7 @@
 #include "kalman_filter.h"
+#include <iostream>
+using namespace std;
+using std::vector;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -73,9 +76,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
 	//new estimate
 	x_ = x_ + (K * y);
-  cout << "UpdateEKF: " << x_ <<P_ << endl;    
 
 	int x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
 	P_ = (I - K * H_) * P_;
+
+  cout << "UpdateEKF: " << x_ <<P_ << endl;    
+
 }
