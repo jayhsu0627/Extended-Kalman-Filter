@@ -83,11 +83,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       Initialize state.
       */
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
-    cout << "EKF initilization !!!!!!: " << ekf_.x_ << endl;
     }
     if (fabs(ekf_.x_(0)) < EPS and fabs(ekf_.x_(1)) < EPS){
-		  ekf_.x_(0) = EPS;
-		  ekf_.x_(1) = EPS;
+		  ekf_.x_(0)  = EPS;
+		  ekf_.x_(1) = = EPS;
 	  }
       ekf_.P_ = MatrixXd(4, 4);
       ekf_.P_ << 1, 0, 0, 0,
@@ -127,8 +126,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   float noise_ay = 9.0;
 	//Modify the F matrix so that the time is integrated
   ekf_.F_ = MatrixXd(4, 4);
-  ekf_.F_(0, 2) = dt;
-  ekf_.F_(1, 3) = dt;
+  ekf_.F_ << 1, 0, dt, 0,
+			       0, 1, 0, dt,
+			       0, 0, 1, 0,
+			       0, 0, 0, 1;
 
 	//set the process covariance matrix Q
   ekf_.Q_ = MatrixXd(4, 4);
