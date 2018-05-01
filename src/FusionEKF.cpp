@@ -86,7 +86,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     }
     if (fabs(ekf_.x_(0)) < EPS and fabs(ekf_.x_(1)) < EPS){
 		  ekf_.x_(0)  = EPS;
-		  ekf_.x_(1) = = EPS;
+		  ekf_.x_(1)  = EPS;
 	  }
       ekf_.P_ = MatrixXd(4, 4);
       ekf_.P_ << 1, 0, 0, 0,
