@@ -83,7 +83,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       Initialize state.
       */
       ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1], 0, 0;
-
+    cout << "EKF initilization !!!!!!: " << ekf_.x_ << endl;
     }
     if (fabs(ekf_.x_(0)) < EPS and fabs(ekf_.x_(1)) < EPS){
 		  ekf_.x_(0) = EPS;
