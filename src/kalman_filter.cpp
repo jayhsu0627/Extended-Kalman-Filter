@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 using std::vector;
+/*#define pi 3.1415926 */
+const float Pi = 3.14159;
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -61,10 +63,10 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   cout << "UpdateEKF X_: " << x_ << endl;
   double rho = sqrt(x_(0)*x_(0) + x_(1)*x_(1));
   double theta = atan2(x_(1) , x_(0));
-  while ((theta - z(1) )>pi/2)
-    theta = theta - pi ;
-  while ((z(1) - theta)>pi/2)
-    theta = theta + pi ;
+  while ((theta - z(1) ) > Pi/2)
+    theta = theta - Pi ;
+  while ((z(1) - theta) > Pi/2)
+    theta = theta + Pi ;
   double rho_dot = (x_(0)*x_(2) + x_(1)*x_(3)) / rho;
   VectorXd h = VectorXd(3); // h(x_)
   h << rho, theta, rho_dot;
